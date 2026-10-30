@@ -6,6 +6,10 @@ It is deliberately game-file-free. The release IPK contains no Balatro code, art
 
 > This is an independent experimental project. It is not affiliated with LocalThunk, Playstack, Valve, or LG. Do not upload Balatro files to this repository, releases, issues, or pull requests.
 
+## AI assistance disclosure
+
+This project’s code, documentation, and design were created with assistance from AI (OpenAI Codex). The maintainer is responsible for reviewing, testing, and maintaining the project.
+
 ## What works today
 
 - Native ARM IPK for LG webOS in Developer Mode.
@@ -21,7 +25,7 @@ It is deliberately game-file-free. The release IPK contains no Balatro code, art
 - An LG webOS TV with **Developer Mode** enabled.
 - A Mac, Windows PC, Linux PC, or Steam Deck on the same home network as the TV.
 - Your own installed Steam copy of Balatro.
-- The latest `io.github.qed18.balatro_*.ipk` from [Releases](https://github.com/QED18/balatro-webos/releases).
+- The latest `balatro-for-webos-v*_arm.ipk` from [Releases](https://github.com/QED18/balatro-webos/releases).
 
 Developer Mode is required for sideloading. Enable it with LG's Developer Mode app, then connect the TV with the webOS CLI or webOS Dev Manager. LG documents the CLI setup and `ares-install` flow in its [Developer Mode guide](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app) and [CLI guide](https://webostv.developer.lge.com/develop/tools/cli-dev-guide).
 
@@ -34,7 +38,7 @@ Developer Mode is required for sideloading. Enable it with LG's Developer Mode a
    npm install --global @webos-tools/cli
    ares-setup-device
    ares-novacom --device YOUR_TV --getkey
-   ares-install --device YOUR_TV io.github.qed18.balatro_0.3.11_arm.ipk
+   ares-install --device YOUR_TV balatro-for-webos-v0.3.11_arm.ipk
    ares-launch --device YOUR_TV io.github.qed18.balatro
    ```
 
