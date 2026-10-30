@@ -19,6 +19,7 @@ add_custom_target(webos-stage
   COMMAND "${CMAKE_COMMAND}" -E copy "${BALATRO_WEBOS_DEPS_PREFIX}/lib/liblove-11.5.so" "${BALATRO_WEBOS_DEPS_PREFIX}/lib/libluajit-5.1.so.2" "${BALATRO_WEBOS_DEPS_PREFIX}/lib/libSDL2-2.0.so.0" "${_runtime_dir}/libstdc++.so.6" "${_runtime_dir}/libgcc_s.so.1" "${BALATRO_IPK_STAGE}/lib/"
   COMMAND "${CMAKE_STRIP}" --strip-unneeded "${BALATRO_IPK_STAGE}/lib/liblove-11.5.so" "${BALATRO_IPK_STAGE}/lib/libluajit-5.1.so.2" "${BALATRO_IPK_STAGE}/lib/libSDL2-2.0.so.0" "${BALATRO_IPK_STAGE}/lib/libstdc++.so.6" "${BALATRO_IPK_STAGE}/lib/libgcc_s.so.1"
   COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE" "${CMAKE_CURRENT_SOURCE_DIR}/THIRD_PARTY_NOTICES.md" "${CMAKE_CURRENT_SOURCE_DIR}/native/LICENSE-WEBMON" "${BALATRO_IPK_STAGE}/"
+  COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/third_party_licenses" "${BALATRO_IPK_STAGE}/third_party_licenses"
   DEPENDS balatro-webos-smoke smoke-love
   VERBATIM)
 if(BALATRO_ARES_PACKAGE)

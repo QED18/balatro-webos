@@ -1,34 +1,49 @@
-# Architecture and validation gates
+# Architecture
 
-## User journey (target)
-Install Webmon from Homebrew Channel → verify the TV's LÖVE runtime using this repository's original smoke test → only then investigate a separate, opt-in compatibility path for a user's own lawfully obtained game files.
+## Design boundary
 
-## Implementation status
-- **Implemented:** setup screen, keyboard/remote event diagnostics.
-- **Validated on TV through Webmon:** this repository's original LÖVE smoke test launched, rendered, accepted remote input, and wrote a save counter. Webmon supplied the local-PIN upload portal; no game files were involved.
-- **Implemented but unverified on hardware:** a custom native LÖVE 11.5 smoke-test source package that uses a pinned Webmon source checkout. It is experimental and not the supported route.
-- **Not yet implemented:** a successful custom-IPK cross-build and validation, Balatro compatibility, gameplay controls, release publication, and Homebrew submission.
+This repository distributes a native webOS host and open-source runtime components only. It never contains Balatro game data. A game archive appears only after an owner deliberately transfers it over their private home network into their TV's private app storage.
 
-## Candidate foundations
-- [Webmon](https://github.com/pustal/Webmon): MIT, webOS-native LÖVE 11.5 runtime; read license and bundled notices before reuse.
-- [SonicWebMania](https://github.com/pustal/SonicWebMania): design reference only due to restrictive upstream licenses.
-- [Web Balatro](https://github.com/W0W53R/web-balatro): fallback browser implementation; license needs verification before copying code.
+## Runtime flow
 
-## Security requirements
-- No copyrighted game files in Git or public release artifacts.
-- Local-network-only upload endpoint; pair with session PIN, expire sessions and rate-limit attempts.
-- Stream incoming files into a staging area and enforce size limits; verify ZIP signature and archive paths.
-- Atomically replace game files only after integrity checks. Keep saves separate and protect against accidental deletion.
-- Close local server when unused; no remote cloud upload.
-- Never require users to expose their TV's SSH port to the Internet.
+```text
+first launch without game
+  → native host starts portal + original setup .love screen
+  → owner browser sends a PIN-protected local upload
+  → native host validates/stages the archive
+  → owner closes and reopens app
+  → native host starts the owner-supplied Balatro archive
+```
 
-## Feasibility gates before claiming Balatro support
-1. Keep Webmon-based smoke testing repeatable and game-file-free.
-2. Independently validate audio, controls, save/reload and 30-minute stability on target TVs.
-3. Test only a user-owned Balatro game archive, required Lua facilities and shaders.
-4. Build and validate a custom IPK only if Webmon cannot meet the final product needs.
-5. Test install/uninstall/update on a TV before any Homebrew submission.
+`native/src/main.cpp` decides which route to use. `PortalServer` runs only when `game/Balatro.love` is absent. When an owner archive exists, the host installs a project-authored shader override for the webOS CRT rendering issue, configures the remote input layer, and starts LÖVE 11.5 with the archive.
 
-## Smoke-test evidence still required
+## Components
 
-The source package is deliberately not evidence of runtime compatibility. Before the next milestone, record the TV model/webOS version, Webmon-derived dependency revision, SDK version, IPK SHA-256, `appinfo.json` contents, install/launch outcome, at least several minutes of rendering, D-pad/OK/Back log output, audio result, and a save counter before and after relaunch. If audio fails, record the device-specific SDL/OpenAL error rather than treating it as success.
+- `native/src/main.cpp` — LÖVE bootstrap and first-run/game decision.
+- `native/src/PortalServer.*` — local pairing HTTP server, file staging, ZIP validation, and Windows-executable normalization.
+- `native/src/Platform.*` — private data directory, CRT workaround, and webOS remote-to-virtual-controller mapping.
+- `native/sample/` — original game-file-free setup screen shown before an owner import.
+- `native/cmake/WebOSPackage.cmake` — native IPK staging and packaging.
+- `app/` — static visual prototype only; it is not the native runtime portal.
+
+## Tested compatibility
+
+The current native route has been tested on an LG webOS 9.2 TV with an owner-supplied archive. The portal accepted a macOS `.love` archive and a Windows `Balatro.exe`; the imported game launched. Magic Remote pointer input and a Bluetooth DualSense controller worked. The D-pad/OK virtual-controller path remains a compatibility fallback and should be tested on additional TV firmware before relying on it.
+
+## Controls
+
+The platform layer creates an SDL virtual controller when the TV's SDL build permits it. Arrows become the D-pad, Return/Green becomes A, and Back/Red becomes B. It suppresses the corresponding keyboard event only after emitting the virtual controller event, avoiding the game's mixed pointer/controller mode. Bluetooth controllers bypass that emulation and are preferred.
+
+## Security constraints
+
+- Import only on a trusted private network.
+- Keep the TV's Developer Mode SSH/key access private; never expose it to the Internet.
+- Do not commit or attach owner archives, saves, or error logs that reveal private paths.
+- Treat the local PIN as pairing convenience, not a strong authentication system.
+
+## Validation before broader releases
+
+1. Test the release IPK as a clean install on another TV model and webOS version.
+2. Confirm a fresh Mac and Windows/Proton transfer, relaunch, save, and controller session.
+3. Record the IPK SHA-256, TV model, webOS version, and any known rendering/input issue in the release notes.
+4. Review runtime dependency licences whenever the pinned build recipe changes.

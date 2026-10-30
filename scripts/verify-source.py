@@ -23,17 +23,30 @@ require(metadata["type"] == "native", "smoke test must be a native webOS app")
 require(metadata["main"] == "bin/balatro-webos-smoke", "native entry point changed")
 require(metadata["icon"] == "icon.png", "smoke package icon missing")
 source = (ROOT / "native/sample/main.lua").read_text()
-for required in ("love.filesystem.write", "love.filesystem.read", "love.audio.newSource", "love.keypressed"):
+config = (ROOT / "native/sample/conf.lua").read_text()
+for required in ("love.filesystem.write", "love.filesystem.read", "love.audio.newSource", "love.keypressed", "love.gamepadpressed"):
     require(required in source, f"smoke sample does not exercise {required}")
-for forbidden in ("Balatro.exe", "Balatro.love", "http://", "https://", "socket", "upload"):
-    require(forbidden not in source, f"forbidden sample content: {forbidden}")
+for forbidden in ("Balatro.exe", "http://", "https://", "socket", "upload"):
+    require(forbidden not in source and forbidden not in config, f"forbidden sample content: {forbidden}")
+require('t.window.fullscreen = true' in config and 't.window.fullscreentype = "desktop"' in config,
+        "setup sample must request desktop fullscreen")
+
+platform = (ROOT / "native/src/Platform.cpp").read_text()
+for required in (
+    "SDL_JoystickAttachVirtual",
+    "SDL_JoystickSetVirtualButton",
+    "SDL_CONTROLLER_BUTTON_DPAD_UP",
+    "SDL_CONTROLLER_BUTTON_A",
+):
+    require(required in platform, f"native remote mapping does not include {required}")
 
 archive = ROOT / ".verify-smoke.love"
 try:
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as out:
         out.write(ROOT / "native/sample/main.lua", "main.lua")
+        out.write(ROOT / "native/sample/conf.lua", "conf.lua")
     with zipfile.ZipFile(archive) as packed:
-        require(packed.namelist() == ["main.lua"], "smoke archive must contain only main.lua")
+        require(packed.namelist() == ["main.lua", "conf.lua"], "smoke archive must contain only original setup files")
 finally:
     archive.unlink(missing_ok=True)
 

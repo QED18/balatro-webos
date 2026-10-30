@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Build the game-file-free ARM IPK on Linux x86_64. No Balatro files are read,
-# copied, uploaded, or produced by this command.
+# copied, uploaded, or produced by this command; owners import their own copy
+# later through the TV's private-LAN portal.
 set -euo pipefail
 
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"

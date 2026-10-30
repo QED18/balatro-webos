@@ -1,6 +1,13 @@
-name: Build native smoke-test IPK
+name: Build native Balatro for webOS IPK
 
 on:
+  pull_request:
+    paths:
+      - 'CMakeLists.txt'
+      - 'native/**'
+      - 'app/icon.png'
+      - 'app/largeIcon.png'
+      - '.github/workflows/native-smoke-build.yml'
   workflow_dispatch:
 
 permissions:
@@ -8,9 +15,9 @@ permissions:
 
 jobs:
   build:
-    name: Linux x86_64 webOS smoke IPK
-    # Experimental only: the supported smoke-test path is Webmon. Run this
-    # workflow manually when investigating the standalone native package.
+    name: Linux x86_64 webOS IPK
+    # Run manually because it downloads the webOS SDK and builds the native
+    # runtime. The resulting artifact contains no owner-supplied game files.
     # The SDK binary requires GLIBC 2.36+, which the Ubuntu 24.04 image supplies.
     runs-on: ubuntu-24.04
     env:
@@ -43,12 +50,12 @@ jobs:
           python3 scripts/verify-source.py
           native/scripts/build-webos.sh
           sha256sum dist/*.ipk | tee dist/SHA256SUMS
-          test -s dist/io.github.qed18.balatro.smoke_0.2.0_arm.ipk
+          test -n "$(find dist -maxdepth 1 -name 'io.github.qed18.balatro_*_arm.ipk' -size +0c -print -quit)"
 
       - name: Publish game-file-free CI artifact
         uses: actions/upload-artifact@v4
         with:
-          name: native-smoke-ipk-${{ github.sha }}
+          name: balatro-webos-ipk-${{ github.sha }}
           path: |
             dist/*.ipk
             dist/SHA256SUMS
