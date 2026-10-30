@@ -132,7 +132,7 @@ On Linux or Steam Deck, use this route only when the local installed game folder
 - **Magic Remote:** use the pointer and click the on-screen controls.
 - **Remote fallback:** arrow keys map to the virtual D-pad; OK/Green maps to A; Back/Red maps to B.
 
-The Magic Remote cursor can have a short wake-up delay on some TV firmware. This is a webOS/remote behavior, not a transfer delay.
+The launcher leaves webOS's normal Magic Remote cursor timeout unchanged. Any wake-up delay after a long period of remote inactivity is handled by the TV firmware, not by the file transfer.
 
 > **Important:** fully exit Balatro before returning to the webOS Home screen or using other TV apps and functions. Press and hold **Back/Return** for about three seconds (or press **Exit**, if your remote has it). Sending the game to Home only leaves it running in the background, which can make Home and the rest of the TV temporarily sluggish.
 
