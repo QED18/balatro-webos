@@ -75,6 +75,22 @@ brew install QED18/tap/balatro-webos
 
 That requires creating and maintaining the `QED18/homebrew-tap` repository and updating its formula's version, URL, and SHA-256 for every release.
 
+## webOS Homebrew Channel
+
+For TVs that already run the **webOS Homebrew Channel**, this project also provides a small personal repository while its listing is reviewed for the official webOSbrew catalog.
+
+1. Open **Homebrew Channel** on the TV.
+2. Open **Settings** and choose **Add Repository**.
+3. Enter this address:
+
+   ```text
+   https://github.com/QED18/balatro-webos/releases/latest/download/apps.json
+   ```
+
+4. Return to the catalog and choose **Balatro for webOS**.
+
+The launcher itself does not require root access and still contains no Balatro files. Homebrew Channel is a separate community installer; its availability and installation requirements depend on your TV and webOSbrew setup.
+
 ## Bring your own game file
 
 On your computer, open the exact address shown on the TV. Enter the TV PIN, choose your platform, and use the matching steps shown by the portal.

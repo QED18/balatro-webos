@@ -1,0 +1,17 @@
+{
+  "paging": {
+    "page": 1,
+    "count": 1,
+    "maxPage": 1,
+    "itemsTotal": 1
+  },
+  "packages": [
+    {
+      "id": "io.github.qed18.balatro",
+      "title": "Balatro for webOS",
+      "iconUri": "https://raw.githubusercontent.com/QED18/balatro-webos/main/app/icon.png",
+      "manifestUrl": "https://github.com/QED18/balatro-webos/releases/latest/download/io.github.qed18.balatro.manifest.json",
+      "shortDescription": "Native launcher for your own legal Balatro copy."
+    }
+  ]
+}
