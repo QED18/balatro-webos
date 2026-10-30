@@ -16,7 +16,10 @@ permissions:
 jobs:
   build:
     name: Linux x86_64 webOS smoke IPK
-    runs-on: ubuntu-24.04
+    # Webmon's pinned OpenAL 1.23.1 dependency recipe supports CMake 3.21+;
+    # Ubuntu 22.04 supplies CMake 3.22, avoiding CMake 3.28's retired-policy
+    # incompatibility while retaining a supported Linux x86_64 hosted runner.
+    runs-on: ubuntu-22.04
     env:
       SDK_TAG: 2026.08-webos
       SDK_ARCHIVE: arm-webos-linux-gnueabi_sdk-buildroot-x86_64.tar.gz
