@@ -1,11 +1,11 @@
 {
   "id": "io.github.qed18.balatro",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "vendor": "QED18",
   "type": "web",
   "main": "index.html",
   "title": "Balatro webOS",
-  "description": "Community launcher. Supply your own legally obtained game files.",
+  "description": "Prototype web UI. The native smoke-test package is built separately and does not run Balatro.",
   "icon": "icon.png",
   "resolution": "1920x1080"
 }

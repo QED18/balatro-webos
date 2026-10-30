@@ -1,0 +1,15 @@
+{
+  "id": "@BALATRO_WEBOS_APP_ID@",
+  "version": "@PROJECT_VERSION@",
+  "vendor": "QED18",
+  "type": "native",
+  "main": "bin/balatro-webos-smoke",
+  "title": "Balatro webOS Smoke Test",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "iconColor": "#0f8ca5",
+  "appDescription": "Game-file-free native LÖVE 11.5 runtime smoke test. It does not run Balatro.",
+  "supportTouchMode": "none",
+  "useAllMouseButtons": false,
+  "requiredACG": []
+}

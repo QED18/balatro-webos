@@ -157,4 +157,6 @@ game-data/
 user-data/
 saves/
 build/
+build-webos/
+third_party/
 *.zip
