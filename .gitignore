@@ -147,3 +147,14 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Balatro proprietary files, local builds and saves
+Balatro.exe
+Balatro.love
+*.love
+*.ipk
+game-data/
+user-data/
+saves/
+build/
+*.zip
