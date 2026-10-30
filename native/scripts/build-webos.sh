@@ -23,7 +23,12 @@ git -C "${webmon_source}" checkout --detach --force FETCH_HEAD
 
 # This is Webmon's pinned LÖVE 11.5 dependency recipe. Review its notices
 # before distributing an IPK; this project does not vendor Webmon sources.
-"${webmon_source}/scripts/build-deps.sh" "${deps}"
+# OpenAL Soft 1.23.1 predates CMake 3.5 policy retirement. This is a
+# build-host compatibility setting only; it does not patch shipped sources.
+deps_script="${webmon_source}/scripts/build-deps.sh"
+grep -q -- '-DALSOFT_UTILS=OFF' "${deps_script}"
+sed -i 's/-DALSOFT_UTILS=OFF/-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DALSOFT_UTILS=OFF/' "${deps_script}"
+"${deps_script}" "${deps}"
 
 cmake -S "${project_root}" -B "${project_root}/build-webos" \
   -DCMAKE_TOOLCHAIN_FILE="${WEBOS_SDK}/share/buildroot/toolchainfile.cmake" \
