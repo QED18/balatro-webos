@@ -1,15 +1,15 @@
 {
   "id": "io.github.qed18.balatro",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "type": "native",
   "title": "Balatro for webOS",
   "appDescription": "A game-file-free native launcher for an owner-supplied legal Steam copy of Balatro. It does not include, download, or distribute game files.",
   "iconUri": "https://raw.githubusercontent.com/QED18/balatro-webos/main/app/icon.png",
   "sourceUrl": "https://github.com/QED18/balatro-webos",
   "rootRequired": false,
-  "ipkUrl": "https://github.com/QED18/balatro-webos/releases/download/v0.3.11/Balatro-for-webOS-v0.3.11.ipk",
+  "ipkUrl": "https://github.com/QED18/balatro-webos/releases/download/v0.3.12/Balatro-for-webOS-v0.3.12.ipk",
   "ipkHash": {
-    "sha256": "0b9cf36e93e9b39456f92eaab24bfe17ee3aa12c22fee273c2e1606da2f8421e"
+    "sha256": "cb7d14a27b8d3817f5a86c87c901c5d99cc02522d52cc1d0baf7db7fa7ea22bb"
   },
   "ipkSize": 4440674
 }
