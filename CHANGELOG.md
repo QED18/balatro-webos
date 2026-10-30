@@ -5,7 +5,7 @@
 - Fixed an overly aggressive one-second Magic Remote cursor sleep timeout. The launcher now keeps webOS's platform default, so pointer controls stay responsive during play.
 - Clarified the safe exit behavior: fully exit the game before returning to webOS Home.
 
-## 0.3.11-beta.1 — 2026-10-30
+## 0.3.11 — 2026-10-30
 
 First public beta of the native, game-file-free Balatro for webOS route.
 
