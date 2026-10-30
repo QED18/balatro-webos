@@ -44,6 +44,37 @@ Developer Mode is required for sideloading. Enable it with LG's Developer Mode a
 
 3. Open **Balatro for webOS** on the TV. On a first run it shows a local address and a four-digit PIN.
 
+### Homebrew-assisted setup (macOS)
+
+Homebrew cannot install an app directly onto an LG TV. It can, however, install the command-line prerequisite used to connect to the TV. In Terminal, run:
+
+```sh
+brew install node
+npm install --global @webos-tools/cli
+curl -L -O https://github.com/QED18/balatro-webos/releases/download/v0.3.11/Balatro-for-webOS-v0.3.11.ipk
+shasum -a 256 Balatro-for-webOS-v0.3.11.ipk
+```
+
+Check that the checksum is:
+
+```text
+0b9cf36e93e9b39456f92eaab24bfe17ee3aa12c22fee273c2e1606da2f8421e
+```
+
+Then follow the commands in **Install on the TV** above: `ares-setup-device`, `ares-novacom --device YOUR_TV --getkey`, and `ares-install`.
+
+### Adding a `brew install` command later
+
+The right Homebrew distribution method is an independent **tap**, not an official Homebrew cask: this release is an LG TV IPK, not a macOS app. A tap such as `QED18/homebrew-tap` can provide a small formula that downloads this IPK and prints its installed path for `ares-install`. It does not remove the need for LG Developer Mode or the TV pairing step.
+
+Once that separate tap exists, users could install it with a single command like:
+
+```sh
+brew install QED18/tap/balatro-webos
+```
+
+That requires creating and maintaining the `QED18/homebrew-tap` repository and updating its formula's version, URL, and SHA-256 for every release.
+
 ## Bring your own game file
 
 On your computer, open the exact address shown on the TV. Enter the TV PIN, choose your platform, and use the matching steps shown by the portal.
