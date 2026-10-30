@@ -1,6 +1,6 @@
 # Game-file-free native LÖVE host for owner-supplied Balatro archives on LG webOS.
 cmake_minimum_required(VERSION 3.21)
-project(BalatroWebOSSmoke VERSION 0.3.11 LANGUAGES C CXX)
+project(BalatroWebOSSmoke VERSION 0.3.12 LANGUAGES C CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/native/cmake")
 
