@@ -20,6 +20,22 @@ This project’s code, documentation, and design were created with assistance fr
 - Local saves and owner-supplied game archive kept in the app's private TV data directory.
 - A compatibility shader that prevents the known black U-shaped CRT artifact on the tested TV.
 
+## Screenshots
+
+Direct captures from an LG webOS TV. The game archive shown in the gameplay images is owner-supplied and is not included with this project.
+
+### First-run setup
+
+![First-run owner setup on an LG webOS TV](assets/screenshots/tv-first-run-setup.jpg)
+
+### Gameplay
+
+![Owner-supplied Balatro game running on an LG webOS TV](assets/screenshots/tv-gameplay.jpg)
+
+### Main menu
+
+![Balatro main menu running on an LG webOS TV](assets/screenshots/tv-current-state.jpg)
+
 ## Before you start
 
 - An LG webOS TV with **Developer Mode** enabled.
