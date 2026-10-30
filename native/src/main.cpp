@@ -1,7 +1,8 @@
 // LÖVE 11.5 standalone host, derived from the zlib-licensed LÖVE main
-// program and structured after Webmon's MIT host. It runs only the bundled
-// no-assets smoke.love sample; it never opens a network port or imports files.
+// program and structured after Webmon's MIT host. Before an owner import it
+// runs the bundled no-assets setup screen and its private-LAN pairing portal.
 #include "Platform.h"
+#include "PortalServer.h"
 
 #include "common/runtime.h"
 #include "common/version.h"
@@ -15,7 +16,9 @@ extern "C" {
 
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include <string>
+#include <unistd.h>
 #include <vector>
 
 namespace {
@@ -57,9 +60,19 @@ int main(int argc, char **argv) {
         std::fprintf(stderr, "[smoke] LÖVE library %s does not match headers %s\n", love_version(), LOVE_VERSION_STRING);
         return 1;
     }
-    balatro_webos::prepareDataFolder();
+    const std::string dataFolder = balatro_webos::prepareDataFolder();
     balatro_webos::installRemoteHandling();
-    const std::string sample = balatro_webos::executableFolder() + "/../share/smoke.love";
-    std::printf("[smoke] starting bundled sample %s\n", sample.c_str());
-    return runLove({ argc > 0 ? argv[0] : "balatro-webos-smoke", sample });
+    const std::string game = dataFolder + "/game/Balatro.love";
+    const bool hasImportedGame = access(game.c_str(), R_OK) == 0;
+    if (hasImportedGame) balatro_webos::installCrtCompatibilityOverlay(dataFolder);
+    balatro_webos::PortalServer portal(dataFolder);
+    if (!hasImportedGame && portal.start()) {
+        setenv("BALATRO_PORTAL_URL", portal.details().url.c_str(), 1);
+        setenv("BALATRO_PORTAL_PIN", portal.details().pin.c_str(), 1);
+    }
+    const std::string program = hasImportedGame ? game : balatro_webos::executableFolder() + "/../share/smoke.love";
+    std::printf("[host] starting %s\n", hasImportedGame ? "owner-supplied archive" : "bundled setup screen");
+    const int exitCode = runLove({ argc > 0 ? argv[0] : "balatro-webos-smoke", program });
+    portal.stop();
+    return exitCode;
 }

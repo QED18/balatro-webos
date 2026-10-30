@@ -1,11 +1,11 @@
 {
   "id": "io.github.qed18.balatro",
-  "version": "0.2.0",
+  "version": "0.3.11",
   "vendor": "QED18",
   "type": "web",
   "main": "index.html",
   "title": "Balatro webOS",
-  "description": "Prototype web UI. The native smoke-test package is built separately and does not run Balatro.",
+  "description": "Static visual preview for the native Balatro for webOS setup portal.",
   "icon": "icon.png",
   "resolution": "1920x1080"
 }

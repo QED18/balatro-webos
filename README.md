@@ -1,67 +1,102 @@
-# Balatro for LG webOS (experimental)
+# Balatro for webOS
 
-Unofficial, open-source launcher for LG webOS TVs. **Bring your own legally obtained Balatro game files.**
+An unofficial, open-source native launcher for running **your own legally obtained copy of Balatro** on an LG webOS TV.
 
-> **Status: prototype only.** The supported proof-of-concept route is [Webmon](https://github.com/pustal/Webmon): its LÖVE 11.5 runtime has run this repository's original, no-assets smoke test on an LG webOS TV. The custom native IPK remains experimental and is not a release or a prerequisite for the Webmon path. Neither route imports, installs, or plays Balatro.
+It is deliberately game-file-free. The release IPK contains no Balatro code, artwork, music, saves, archive, downloader, or cloud service. During first-run setup, the TV shows a local address and a four-digit PIN. From a computer on the same home network, you select a supported file from your installed Steam copy and it transfers directly to the TV.
 
-## Goal
+> This is an independent experimental project. It is not affiliated with LocalThunk, Playstack, Valve, or LG. Do not upload Balatro files to this repository, releases, issues, or pull requests.
 
-1. Install Webmon via Homebrew Channel and verify the TV's LÖVE runtime with this repository's original smoke test.
-2. Keep all source, CI artifacts, and releases game-file-free.
-3. Only after compatibility work, design a separate opt-in path for a user's own lawfully obtained game files.
+## What works today
 
-These are planned capabilities, not shipped features.
+- Native ARM IPK for LG webOS in Developer Mode.
+- First-run local pairing portal with a TV-generated four-digit PIN.
+- macOS import of `Balatro.love` from an installed Steam copy.
+- Windows/Linux/Steam Deck import of an installed `Balatro.exe` containing the LÖVE archive.
+- Magic Remote pointer input, a TV-remote controller fallback, and Bluetooth controllers. A DualSense controller has been tested.
+- Local saves and owner-supplied game archive kept in the app's private TV data directory.
+- A compatibility shader that prevents the known black U-shaped CRT artifact on the tested TV.
 
-## Current prototype
+## Before you start
 
-- `app/index.html`: fullscreen first-run UI.
-- `app/js/app.js`: webOS key diagnostics and OK-button test.
-- `app/style.css`: TV-first responsive layout.
-- `app/appinfo.json`: preliminary webOS package metadata.
+- An LG webOS TV with **Developer Mode** enabled.
+- A Mac, Windows PC, Linux PC, or Steam Deck on the same home network as the TV.
+- Your own installed Steam copy of Balatro.
+- The latest `io.github.qed18.balatro_*.ipk` from [Releases](https://github.com/QED18/balatro-webos/releases).
 
-Open `app/index.html` in a desktop browser to inspect the prototype. This is not a runtime or compatibility test for LG TV hardware.
+Developer Mode is required for sideloading. Enable it with LG's Developer Mode app, then connect the TV with the webOS CLI or webOS Dev Manager. LG documents the CLI setup and `ares-install` flow in its [Developer Mode guide](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app) and [CLI guide](https://webostv.developer.lge.com/develop/tools/cli-dev-guide).
 
-## Supported smoke test: Webmon (not Balatro support)
+## Install on the TV
 
-Webmon is the fastest validated path to test a LÖVE program on a compatible webOS TV. Install Webmon through Homebrew Channel, open it on the TV, press remote **1** to display its local upload address and temporary PIN, then upload the original `.love` smoke archive from a device on the same private network. Exit and reopen Webmon to run the newest uploaded `.love` file.
+1. Put the TV in Developer Mode and make sure its **Key Server** is on.
+2. Install the downloaded IPK with webOS Dev Manager, or use the official webOS CLI:
 
-The smoke program renders original shapes/text, requests a generated 440 Hz tone, logs D-pad/OK/Back input, and writes a counter save. It contains no Balatro code, art, audio, archives, save data, networking, or downloader.
+   ```sh
+   npm install --global @webos-tools/cli
+   ares-setup-device
+   ares-novacom --device YOUR_TV --getkey
+   ares-install --device YOUR_TV io.github.qed18.balatro_0.3.11_arm.ipk
+   ares-launch --device YOUR_TV io.github.qed18.balatro
+   ```
 
-The repository's `native/sample/main.lua` is the source for that test. Package it with `main.lua` at the archive root:
+3. Open **Balatro for webOS** on the TV. On a first run it shows a local address and a four-digit PIN.
 
-```sh
-(cd native/sample && cmake -E tar cf ../../balatro-webos-smoke.love --format=zip main.lua)
-```
+## Bring your own game file
 
-## Experimental native IPK build
+On your computer, open the exact address shown on the TV. Enter the TV PIN, choose your platform, and use the matching steps shown by the portal.
 
-`native/` contains an original LÖVE 11.5 sample and a narrow native host patterned after the MIT-licensed Webmon integration. It runs **only** the bundled `smoke.love` sample: it renders text/shapes, requests a generated 440 Hz tone, logs D-pad/OK/Back input, and writes a counter save. It has no network listener, uploader, game-file discovery, downloader, root command, or game content.
+### macOS
 
-On a Linux x86_64 build host with the webOSbrew Buildroot SDK, `ares-package`, and Webmon's build prerequisites:
+1. In Steam, right-click **Balatro** and choose **Manage → Browse local files**.
+2. Right-click `Balatro.app`, choose **Show Package Contents**, then open `Contents/Resources`.
+3. Drag `Balatro.love` onto the portal, or click the drop area and select it.
+4. Select **Verify & Transfer**. When it says complete, quit and reopen the TV app.
+
+### Windows, Linux, and Steam Deck
+
+1. In Steam, right-click **Balatro** and choose **Manage → Browse local files**.
+2. Drag `Balatro.exe` from that folder onto the portal, or click the drop area and select it.
+3. Select **Verify & Transfer**. When it says complete, quit and reopen the TV app.
+
+On Linux or Steam Deck, use this route only when the local installed game folder contains `Balatro.exe` (for example, a Proton install). The portal extracts the embedded LÖVE archive locally on the TV; it does not upload it anywhere else.
+
+## Controls
+
+- **Recommended:** pair a Bluetooth controller, such as a DualSense.
+- **Magic Remote:** use the pointer and click the on-screen controls.
+- **Remote fallback:** arrow keys map to the virtual D-pad; OK/Green maps to A; Back/Red maps to B.
+
+The Magic Remote cursor can have a short wake-up delay on some TV firmware. This is a webOS/remote behavior, not a transfer delay.
+
+## Privacy and safety
+
+- The portal listens only while the setup screen is open and displays a local-network URL.
+- Files go directly from your computer to the TV. There is no account, cloud upload, telemetry, or game-file download.
+- Never port-forward the TV or expose the pairing address to the Internet.
+- The portal checks the four-digit PIN, maximum file size, ZIP directory, safe archive paths, and that `main.lua` is at the archive root. It is intended for a trusted home network, not as an Internet-facing file service.
+
+## Known limitations
+
+- This is an experimental sideloaded app, not an LG Content Store release.
+- Developer Mode sessions expire; LG may remove sideloaded apps when Developer Mode is disabled or expires.
+- The original CRT warp shader is replaced on the tested TV to avoid the black U-shaped rendering bug, so its visual effect is not identical to the desktop game.
+- Only macOS `Balatro.love` and Windows-format `Balatro.exe` are accepted. A macOS `.app` bundle cannot be traversed by a browser file picker, so select the `.love` file inside it.
+
+## Build from source
+
+Builds are supported on Linux x86_64 with the webOSbrew Buildroot SDK and the webOS CLI installed:
 
 ```sh
 export WEBOS_SDK=/absolute/path/to/arm-webos-linux-gnueabi_sdk-buildroot
+python3 scripts/verify-source.py
 native/scripts/build-webos.sh
 ```
 
-The script pins Webmon to `bb59edf545dd6ab3878dfc7441b20e9fffccf55d`, reuses its LÖVE dependency recipe, and asks `ares-package` to make `dist/io.github.qed18.balatro.smoke_0.2.0_arm.ipk`. This path is experimental: do not treat it as a supported install method or publish its output until it has a clean cross-build and independent TV validation. Run `python3 scripts/verify-source.py` for the source-level checks available without the SDK.
-
-The package source uses the original 512×512 `app/icon.png` and `app/largeIcon.png`; it includes `LICENSE`, `LICENSE-WEBMON`, and `THIRD_PARTY_NOTICES.md`. Complete the notices and LGPL distribution review before publishing any binary.
-
-## Technical strategy
-
-First test the MIT-licensed [Webmon](https://github.com/pustal/Webmon) native LÖVE 11.5 host using a minimal test game, then test a copy of Balatro provided by its owner. Its TV-side upload portal is a strong architectural reference. [SonicWebMania](https://github.com/pustal/SonicWebMania) demonstrates the desired local-PIN upload experience, but its restrictive license means we will **not** copy its implementation into this MIT project.
-
-See [architecture and milestones](docs/ARCHITECTURE.md).
-
-## Copyright and attribution
-
-This repository must not ship Balatro source, music, art, game archives or DRM bypasses. Users are responsible for obtaining their own game copy. This project is not affiliated with LocalThunk, Playstack or LG. Before integrating third-party source code, review its full license and include attribution notices.
+The resulting package is placed in `dist/`. The build pins the Webmon dependency recipe and packages LÖVE 11.5 plus the runtime libraries it requires. See [architecture](docs/ARCHITECTURE.md), [portal details](docs/PORTAL.md), and [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ## Contributing
 
-Compatibility testing, documentation and code contributions are welcome. Please do not attach proprietary game files to issues or pull requests. Never commit personal save files.
+Issues, TV compatibility reports, documentation fixes, and code contributions are welcome. Please include TV model, webOS version, controller, and a redacted error message when reporting a bug. Never attach copyrighted game files or personal save data.
 
 ## License
 
-Project-authored code is MIT-licensed. Third-party components, when introduced, may have separate conditions. See `LICENSE`.
+Project-authored code is [MIT licensed](LICENSE). Runtime components included in a built IPK have their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
