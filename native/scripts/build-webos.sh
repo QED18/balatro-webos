@@ -13,6 +13,12 @@ if [[ "$(uname -s)" != "Linux" || "$(uname -m)" != "x86_64" ]]; then
   echo "This build recipe is supported only on Linux x86_64." >&2
   exit 2
 fi
+# The Buildroot SDK release ships libstdc++.la with its CI path in `libdir`.
+# Rewrite only that relocatable metadata to this unpacked SDK location.
+sdk_libtool_archive="${WEBOS_SDK}/arm-webos-linux-gnueabi/lib/libstdc++.la"
+if [[ -f "${sdk_libtool_archive}" ]]; then
+  sed -i "s|^libdir=.*|libdir='${WEBOS_SDK}/arm-webos-linux-gnueabi/lib'|" "${sdk_libtool_archive}"
+fi
 if [[ ! -d "${webmon_source}/.git" ]]; then
   mkdir -p "$(dirname "${webmon_source}")"
   git clone --no-checkout https://github.com/pustal/Webmon.git "${webmon_source}"
