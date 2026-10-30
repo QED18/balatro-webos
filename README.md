@@ -54,7 +54,7 @@ Developer Mode is required for sideloading. Enable it with LG's Developer Mode a
    npm install --global @webos-tools/cli
    ares-setup-device
    ares-novacom --device YOUR_TV --getkey
-   ares-install --device YOUR_TV Balatro-for-webOS-v0.3.11.ipk
+   ares-install --device YOUR_TV Balatro-for-webOS-v0.3.12.ipk
    ares-launch --device YOUR_TV io.github.qed18.balatro
    ```
 
@@ -67,14 +67,14 @@ Homebrew cannot install an app directly onto an LG TV. It can, however, install 
 ```sh
 brew install node
 npm install --global @webos-tools/cli
-curl -L -O https://github.com/QED18/balatro-webos/releases/download/v0.3.11/Balatro-for-webOS-v0.3.11.ipk
-shasum -a 256 Balatro-for-webOS-v0.3.11.ipk
+curl -L -O https://github.com/QED18/balatro-webos/releases/download/v0.3.12/Balatro-for-webOS-v0.3.12.ipk
+shasum -a 256 Balatro-for-webOS-v0.3.12.ipk
 ```
 
 Check that the checksum is:
 
 ```text
-0b9cf36e93e9b39456f92eaab24bfe17ee3aa12c22fee273c2e1606da2f8421e
+cb7d14a27b8d3817f5a86c87c901c5d99cc02522d52cc1d0baf7db7fa7ea22bb
 ```
 
 Then follow the commands in **Install on the TV** above: `ares-setup-device`, `ares-novacom --device YOUR_TV --getkey`, and `ares-install`.
