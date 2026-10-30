@@ -33,6 +33,7 @@ grep -q -- '-DALSOFT_UTILS=OFF' "${deps_script}"
 sed -i 's/-DALSOFT_UTILS=OFF/-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_CXX_STANDARD=17 -DALSOFT_UTILS=OFF/' "${deps_script}"
 sed -i 's/-DCMAKE_CXX_FLAGS="${CXXFLAGS}" -DLIBTYPE=STATIC/-DCMAKE_CXX_FLAGS="${CXXFLAGS} -std=gnu++17 -include stdint.h" -DLIBTYPE=STATIC/' "${deps_script}"
 sed -i '/fetch_git "${OPENAL_REPO}" "${OPENAL_TAG}" openal/a\    sed -i '\''s/CXX_STANDARD 14/CXX_STANDARD 17/'\'' "${src}/openal/CMakeLists.txt"' "${deps_script}"
+sed -i 's/ -static-libstdc++ -static-libgcc//' "${deps_script}"
 "${deps_script}" "${deps}"
 
 cmake -S "${project_root}" -B "${project_root}/build-webos" \
