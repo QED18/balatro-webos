@@ -2,14 +2,13 @@
 
 Unofficial, open-source launcher for LG webOS TVs. **Bring your own legally obtained Balatro game files.**
 
-> **Status: prototype only.** The current browser app is a first-run UI and remote-input diagnostic. A separate, game-file-free *native LÖVE runtime smoke test* is now source-complete but **has not been cross-built or run on a TV**. Neither component imports, installs, or plays Balatro. There is no installable release yet.
+> **Status: prototype only.** The supported proof-of-concept route is [Webmon](https://github.com/pustal/Webmon): its LÖVE 11.5 runtime has run this repository's original, no-assets smoke test on an LG webOS TV. The custom native IPK remains experimental and is not a release or a prerequisite for the Webmon path. Neither route imports, installs, or plays Balatro.
 
 ## Goal
 
-1. Install a small, game-file-free app via Homebrew Channel.
-2. Open it on the TV and see an address plus temporary PIN.
-3. From a PC on the same private network, provide your purchased Steam copy.
-4. Transfer game files locally to the TV and play offline with the LG Magic Remote.
+1. Install Webmon via Homebrew Channel and verify the TV's LÖVE runtime with this repository's original smoke test.
+2. Keep all source, CI artifacts, and releases game-file-free.
+3. Only after compatibility work, design a separate opt-in path for a user's own lawfully obtained game files.
 
 These are planned capabilities, not shipped features.
 
@@ -22,7 +21,19 @@ These are planned capabilities, not shipped features.
 
 Open `app/index.html` in a desktop browser to inspect the prototype. This is not a runtime or compatibility test for LG TV hardware.
 
-## Native runtime smoke test (not Balatro support)
+## Supported smoke test: Webmon (not Balatro support)
+
+Webmon is the fastest validated path to test a LÖVE program on a compatible webOS TV. Install Webmon through Homebrew Channel, open it on the TV, press remote **1** to display its local upload address and temporary PIN, then upload the original `.love` smoke archive from a device on the same private network. Exit and reopen Webmon to run the newest uploaded `.love` file.
+
+The smoke program renders original shapes/text, requests a generated 440 Hz tone, logs D-pad/OK/Back input, and writes a counter save. It contains no Balatro code, art, audio, archives, save data, networking, or downloader.
+
+The repository's `native/sample/main.lua` is the source for that test. Package it with `main.lua` at the archive root:
+
+```sh
+(cd native/sample && cmake -E tar cf ../../balatro-webos-smoke.love --format=zip main.lua)
+```
+
+## Experimental native IPK build
 
 `native/` contains an original LÖVE 11.5 sample and a narrow native host patterned after the MIT-licensed Webmon integration. It runs **only** the bundled `smoke.love` sample: it renders text/shapes, requests a generated 440 Hz tone, logs D-pad/OK/Back input, and writes a counter save. It has no network listener, uploader, game-file discovery, downloader, root command, or game content.
 
@@ -33,7 +44,7 @@ export WEBOS_SDK=/absolute/path/to/arm-webos-linux-gnueabi_sdk-buildroot
 native/scripts/build-webos.sh
 ```
 
-The script pins Webmon to `bb59edf545dd6ab3878dfc7441b20e9fffccf55d`, reuses its LÖVE dependency recipe, and asks `ares-package` to make `dist/io.github.qed18.balatro.smoke_0.2.0_arm.ipk`. It has not been executed in this repository because the SDK, 32-bit LuaJIT host build support, and `ares-package` are not present. Run `python3 scripts/verify-source.py` for the source-level checks available without the SDK.
+The script pins Webmon to `bb59edf545dd6ab3878dfc7441b20e9fffccf55d`, reuses its LÖVE dependency recipe, and asks `ares-package` to make `dist/io.github.qed18.balatro.smoke_0.2.0_arm.ipk`. This path is experimental: do not treat it as a supported install method or publish its output until it has a clean cross-build and independent TV validation. Run `python3 scripts/verify-source.py` for the source-level checks available without the SDK.
 
 The package source uses the original 512×512 `app/icon.png` and `app/largeIcon.png`; it includes `LICENSE`, `LICENSE-WEBMON`, and `THIRD_PARTY_NOTICES.md`. Complete the notices and LGPL distribution review before publishing any binary.
 
