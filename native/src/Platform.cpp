@@ -129,7 +129,8 @@ vec4 effect(vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords)
 void installRemoteHandling() {
     SDL_SetHint("SDL_WEBOS_ACCESS_POLICY_KEYS_BACK", "true");
     SDL_SetHint("SDL_WEBOS_ACCESS_POLICY_KEYS_EXIT", "true");
-    SDL_SetHint("SDL_WEBOS_CURSOR_SLEEP_TIME", "1000");
+    // Keep the platform default cursor timeout. A one-second override made the
+    // Magic Remote pointer sleep almost immediately and added a wake-up delay.
     remoteGamepad = nullptr;
     SDL_SetEventFilter(remoteEventFilter, nullptr);
 }
