@@ -118,6 +118,8 @@ On Linux or Steam Deck, use this route only when the local installed game folder
 
 The Magic Remote cursor can have a short wake-up delay on some TV firmware. This is a webOS/remote behavior, not a transfer delay.
 
+> **Important:** fully exit Balatro before returning to the webOS Home screen or using other TV apps and functions. Press and hold **Back/Return** for about three seconds (or press **Exit**, if your remote has it). Sending the game to Home only leaves it running in the background, which can make Home and the rest of the TV temporarily sluggish.
+
 ## Privacy and safety
 
 - The portal listens only while the setup screen is open and displays a local-network URL.
