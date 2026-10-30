@@ -16,10 +16,8 @@ permissions:
 jobs:
   build:
     name: Linux x86_64 webOS smoke IPK
-    # Webmon's pinned OpenAL 1.23.1 dependency recipe supports CMake 3.21+;
-    # Ubuntu 22.04 supplies CMake 3.22, avoiding CMake 3.28's retired-policy
-    # incompatibility while retaining a supported Linux x86_64 hosted runner.
-    runs-on: ubuntu-22.04
+    # The SDK binary requires GLIBC 2.36+, which the Ubuntu 24.04 image supplies.
+    runs-on: ubuntu-24.04
     env:
       SDK_TAG: 2026.08-webos
       SDK_ARCHIVE: arm-webos-linux-gnueabi_sdk-buildroot-x86_64.tar.gz
@@ -31,6 +29,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes autoconf automake build-essential cmake curl g++-multilib gcc-multilib git libtool ninja-build pkg-config
+          python3 -m pip install --user 'cmake==3.21.4'
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/cmake" --version
           npm install --global @webos-tools/cli
 
       - name: Fetch and relocate pinned webOSbrew SDK
