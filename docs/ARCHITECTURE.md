@@ -5,7 +5,8 @@ Install launcher from Homebrew Channel → see local pairing URL and one-time PI
 
 ## Implementation status
 - **Implemented:** setup screen, keyboard/remote event diagnostics.
-- **Not yet implemented:** network server, pairing/PIN, upload, extraction, storage management, native LÖVE integration, audio/gameplay, save support, packaging CI, Homebrew submission.
+- **Implemented but unverified on hardware:** a native LÖVE 11.5 smoke-test source package that renders original shapes/text, requests generated test audio, maps key events, and uses LÖVE's isolated save location. Its build uses a pinned Webmon source checkout. Source checks run in CI.
+- **Not yet implemented:** a successful cross-build/IPK validation, real-TV runtime/audio/save evidence, network server, pairing/PIN, upload, extraction, storage management, Balatro compatibility, gameplay controls, release publication, and Homebrew submission.
 
 ## Candidate foundations
 - [Webmon](https://github.com/pustal/Webmon): MIT, webOS-native LÖVE 11.5 runtime; read license and bundled notices before reuse.
@@ -26,3 +27,7 @@ Install launcher from Homebrew Channel → see local pairing URL and one-time PI
 3. Test user-owned Balatro game archive, required Lua facilities and shaders.
 4. Verify controls, audio, loading, save/reload and 30-minute stability.
 5. Package IPK and test install/uninstall/update on a TV before Homebrew submission.
+
+## Smoke-test evidence still required
+
+The source package is deliberately not evidence of runtime compatibility. Before the next milestone, record the TV model/webOS version, Webmon-derived dependency revision, SDK version, IPK SHA-256, `appinfo.json` contents, install/launch outcome, at least several minutes of rendering, D-pad/OK/Back log output, audio result, and a save counter before and after relaunch. If audio fails, record the device-specific SDL/OpenAL error rather than treating it as success.

@@ -2,7 +2,7 @@
 
 Unofficial, open-source launcher for LG webOS TVs. **Bring your own legally obtained Balatro game files.**
 
-> **Status: prototype only.** The current application is a first-run UI and remote-input smoke test. It does **not** yet import, install or play Balatro. There is no installable IPK release yet.
+> **Status: prototype only.** The current browser app is a first-run UI and remote-input diagnostic. A separate, game-file-free *native LÖVE runtime smoke test* is now source-complete but **has not been cross-built or run on a TV**. Neither component imports, installs, or plays Balatro. There is no installable release yet.
 
 ## Goal
 
@@ -20,7 +20,22 @@ These are planned capabilities, not shipped features.
 - `app/style.css`: TV-first responsive layout.
 - `app/appinfo.json`: preliminary webOS package metadata.
 
-Open `app/index.html` in a desktop browser to inspect the prototype. This is not a runtime or compatibility test for LG TV hardware. The icon and production packaging must still be completed.
+Open `app/index.html` in a desktop browser to inspect the prototype. This is not a runtime or compatibility test for LG TV hardware.
+
+## Native runtime smoke test (not Balatro support)
+
+`native/` contains an original LÖVE 11.5 sample and a narrow native host patterned after the MIT-licensed Webmon integration. It runs **only** the bundled `smoke.love` sample: it renders text/shapes, requests a generated 440 Hz tone, logs D-pad/OK/Back input, and writes a counter save. It has no network listener, uploader, game-file discovery, downloader, root command, or game content.
+
+On a Linux x86_64 build host with the webOSbrew Buildroot SDK, `ares-package`, and Webmon's build prerequisites:
+
+```sh
+export WEBOS_SDK=/absolute/path/to/arm-webos-linux-gnueabi_sdk-buildroot
+native/scripts/build-webos.sh
+```
+
+The script pins Webmon to `bb59edf545dd6ab3878dfc7441b20e9fffccf55d`, reuses its LÖVE dependency recipe, and asks `ares-package` to make `dist/io.github.qed18.balatro.smoke_0.2.0_arm.ipk`. It has not been executed in this repository because the SDK, 32-bit LuaJIT host build support, and `ares-package` are not present. Run `python3 scripts/verify-source.py` for the source-level checks available without the SDK.
+
+The package source uses the original 512×512 `app/icon.png` and `app/largeIcon.png`; it includes `LICENSE`, `LICENSE-WEBMON`, and `THIRD_PARTY_NOTICES.md`. Complete the notices and LGPL distribution review before publishing any binary.
 
 ## Technical strategy
 
