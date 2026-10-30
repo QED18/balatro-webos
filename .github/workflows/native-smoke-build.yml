@@ -48,7 +48,7 @@ jobs:
           WEBOS_SDK: ${{ github.workspace }}/arm-webos-linux-gnueabi_sdk-buildroot
         run: |
           python3 scripts/verify-source.py
-          native/scripts/build-webos.sh
+          bash native/scripts/build-webos.sh
           sha256sum dist/*.ipk | tee dist/SHA256SUMS
           test -n "$(find dist -maxdepth 1 -name 'io.github.qed18.balatro_*_arm.ipk' -size +0c -print -quit)"
 
