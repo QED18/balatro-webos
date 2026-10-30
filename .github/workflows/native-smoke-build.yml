@@ -1,13 +1,6 @@
 name: Build native smoke-test IPK
 
 on:
-  pull_request:
-    paths:
-      - 'CMakeLists.txt'
-      - 'native/**'
-      - 'app/icon.png'
-      - 'app/largeIcon.png'
-      - '.github/workflows/native-smoke-build.yml'
   workflow_dispatch:
 
 permissions:
@@ -16,6 +9,8 @@ permissions:
 jobs:
   build:
     name: Linux x86_64 webOS smoke IPK
+    # Experimental only: the supported smoke-test path is Webmon. Run this
+    # workflow manually when investigating the standalone native package.
     # The SDK binary requires GLIBC 2.36+, which the Ubuntu 24.04 image supplies.
     runs-on: ubuntu-24.04
     env:
