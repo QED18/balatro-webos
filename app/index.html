@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Balatro for webOS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="layout">
+  <section class="hero" aria-labelledby="heading">
+    <p class="eyebrow">COMMUNITY HOMEBREW · EXPERIMENTAL</p>
+    <h1 id="heading">Balatro <span>for webOS</span></h1>
+    <p class="intro">A game-file-free launcher for LG TVs. Supply your own purchased copy of Balatro.</p>
+    <div class="status" role="status" aria-live="polite"><span class="dot"></span><span id="status">Setup mode: game runtime not installed</span></div>
+  </section>
+  <section class="panel" aria-labelledby="setup-title">
+    <span class="step">01 / SETUP</span>
+    <h2 id="setup-title">Prepare your TV</h2>
+    <p>This development build verifies that a webOS app can render and receive remote input. Game import and playback are not implemented yet.</p>
+    <div class="details"><div><small>Platform</small><strong id="platform">Detecting…</strong></div><div><small>Remote input</small><strong id="last-key">Waiting</strong></div></div>
+    <button id="test-button" type="button" autofocus>Test remote OK button</button>
+    <p id="test-result" class="result" aria-live="polite">Use the arrow keys to focus the button, then press OK.</p>
+  </section>
+  <footer>Unofficial fan project · Not affiliated with LocalThunk or Playstack · No Balatro assets included</footer>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>
