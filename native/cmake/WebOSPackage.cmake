@@ -1,7 +1,7 @@
 find_program(BALATRO_ARES_PACKAGE ares-package)
 set(BALATRO_IPK_STAGE "${CMAKE_CURRENT_BINARY_DIR}/ipk")
 set(BALATRO_DIST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
-set(BALATRO_IPK_NAME "balatro-for-webos-v${PROJECT_VERSION}_arm.ipk")
+set(BALATRO_IPK_NAME "Balatro-for-webOS-v${PROJECT_VERSION}.ipk")
 get_filename_component(_compiler_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
 set(_runtime_dir "${_compiler_dir}/../arm-webos-linux-gnueabi/lib")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/native/webos/appinfo.json.in" "${CMAKE_CURRENT_BINARY_DIR}/appinfo.json" @ONLY)
