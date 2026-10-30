@@ -24,10 +24,12 @@ git -C "${webmon_source}" checkout --detach --force FETCH_HEAD
 # This is Webmon's pinned LÖVE 11.5 dependency recipe. Review its notices
 # before distributing an IPK; this project does not vendor Webmon sources.
 # OpenAL Soft 1.23.1 predates CMake 3.5 policy retirement and needs C++17.
-# These are build-host compatibility settings only; they do not patch shipped sources.
+# These build-host compatibility settings reach both its CMake policy layer and
+# compiler flags; they do not patch shipped sources.
 deps_script="${webmon_source}/scripts/build-deps.sh"
 grep -q -- '-DALSOFT_UTILS=OFF' "${deps_script}"
 sed -i 's/-DALSOFT_UTILS=OFF/-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_CXX_STANDARD=17 -DALSOFT_UTILS=OFF/' "${deps_script}"
+sed -i 's/-DCMAKE_CXX_FLAGS="${CXXFLAGS}" -DLIBTYPE=STATIC/-DCMAKE_CXX_FLAGS="${CXXFLAGS} -std=gnu++17" -DLIBTYPE=STATIC/' "${deps_script}"
 "${deps_script}" "${deps}"
 
 cmake -S "${project_root}" -B "${project_root}/build-webos" \
