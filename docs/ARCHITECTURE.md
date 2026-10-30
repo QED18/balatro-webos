@@ -1,12 +1,13 @@
 # Architecture and validation gates
 
 ## User journey (target)
-Install launcher from Homebrew Channel → see local pairing URL and one-time PIN → select legally obtained Balatro game archive on a PC on the same LAN → validate and transfer → store privately on the TV → run offline using Magic Remote.
+Install Webmon from Homebrew Channel → verify the TV's LÖVE runtime using this repository's original smoke test → only then investigate a separate, opt-in compatibility path for a user's own lawfully obtained game files.
 
 ## Implementation status
 - **Implemented:** setup screen, keyboard/remote event diagnostics.
-- **Implemented but unverified on hardware:** a native LÖVE 11.5 smoke-test source package that renders original shapes/text, requests generated test audio, maps key events, and uses LÖVE's isolated save location. Its build uses a pinned Webmon source checkout. Source checks run in CI.
-- **Not yet implemented:** a successful cross-build/IPK validation, real-TV runtime/audio/save evidence, network server, pairing/PIN, upload, extraction, storage management, Balatro compatibility, gameplay controls, release publication, and Homebrew submission.
+- **Validated on TV through Webmon:** this repository's original LÖVE smoke test launched, rendered, accepted remote input, and wrote a save counter. Webmon supplied the local-PIN upload portal; no game files were involved.
+- **Implemented but unverified on hardware:** a custom native LÖVE 11.5 smoke-test source package that uses a pinned Webmon source checkout. It is experimental and not the supported route.
+- **Not yet implemented:** a successful custom-IPK cross-build and validation, Balatro compatibility, gameplay controls, release publication, and Homebrew submission.
 
 ## Candidate foundations
 - [Webmon](https://github.com/pustal/Webmon): MIT, webOS-native LÖVE 11.5 runtime; read license and bundled notices before reuse.
@@ -22,11 +23,11 @@ Install launcher from Homebrew Channel → see local pairing URL and one-time PI
 - Never require users to expose their TV's SSH port to the Internet.
 
 ## Feasibility gates before claiming Balatro support
-1. Confirm target TV architecture, disk space and renderer.
-2. Build and launch an ordinary LÖVE 11.5 smoke-test game.
-3. Test user-owned Balatro game archive, required Lua facilities and shaders.
-4. Verify controls, audio, loading, save/reload and 30-minute stability.
-5. Package IPK and test install/uninstall/update on a TV before Homebrew submission.
+1. Keep Webmon-based smoke testing repeatable and game-file-free.
+2. Independently validate audio, controls, save/reload and 30-minute stability on target TVs.
+3. Test only a user-owned Balatro game archive, required Lua facilities and shaders.
+4. Build and validate a custom IPK only if Webmon cannot meet the final product needs.
+5. Test install/uninstall/update on a TV before any Homebrew submission.
 
 ## Smoke-test evidence still required
 
